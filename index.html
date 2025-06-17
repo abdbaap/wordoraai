@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wordora: AI Tech for Junior Developers</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #121212; /* Very dark gray - main background */
+            color: #e0e0e0; /* Light gray - default text color */
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #00dc9c, #a0a0ff); /* Emerald green to soft violet-blue */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-background {
+            /* Background image using a direct Unsplash link, with a placehold.co fallback */
+            background-image: url('https://images.unsplash.com/photo-1596551322049-55694c9657b0?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1920&h=800&fit=crop');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        .hero-background::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7); /* Dark overlay for text readability */
+        }
+        .animated-gradient-border {
+            border: 2px solid;
+            border-image: linear-gradient(45deg, #00dc9c, #a0a0ff) 1;
+            animation: gradientBorder 3s infinite alternate;
+        }
+        @keyframes gradientBorder {
+            0% { border-image: linear-gradient(45deg, #00dc9c, #a0a0ff) 1; }
+            50% { border-image: linear-gradient(90deg, #a0a0ff, #00dc9c) 1; }
+            100% { border-image: linear-gradient(135deg, #00dc9c, #a0a0ff) 1; }
+        }
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .scroll-reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .code-block {
+            background-color: #282828; /* Darker gray for code block background */
+            border-left: 4px solid #00dc9c; /* Emerald accent border */
+            overflow-x: auto;
+        }
+        .code-prompt, .code-output {
+            background-color: #333333; /* Slightly lighter gray for prompt/output boxes */
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 0.75rem; /* Space between prompt and code */
+            border: 1px solid #4d4d4d; /* Slightly lighter border */
+        }
+        .code-prompt-label, .code-output-label {
+            font-weight: 600; /* Semi-bold */
+            color: #a0a0ff; /* Soft violet-blue for labels */
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        /* Custom scrollbar for webkit browsers */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #282828;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4d4d4d;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #666666;
+        }
+
+        /* Section Specific Background Colors - More Distinct */
+        .bg-intro {
+            background-color: #1e1e1e; /* Darker charcoal */
+        }
+        .bg-gemini {
+            background-color: #2a2a2a; /* Slightly lighter charcoal */
+        }
+        .bg-chatgpt {
+            background-color: #3a3a3a; /* Medium dark gray */
+        }
+        .bg-videoai {
+            background-color: #4a4a4a; /* Lighter dark gray */
+        }
+        .bg-gamma {
+            background-color: #5a5a5a; /* Even lighter gray */
+        }
+        .bg-other-websites {
+            background-color: #6a6a6a; /* Lightest dark gray for contrast */
+        }
+        .bg-contact {
+            background-color: #1e1e1e; /* Reuse dark charcoal */
+        }
+        .project-card {
+            background-color: #282828; /* Dark gray for individual project cards */
+            border: 1px solid #4d4d4d;
+        }
+        .project-card:hover {
+            background-color: #333333; /* Darker on hover */
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 bg-[#1a1a1a] bg-opacity-90 backdrop-blur-sm shadow-lg">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-white gradient-text rounded-lg px-2 py-1">Wordora</a>
+            <div class="hidden md:flex space-x-6">
+                <a href="#home" class="text-gray-300 hover:text-emerald-400 transition-colors duration-300 rounded-md px-3 py-2">Home</a>
+                <a href="#gemini" class="text-gray-300 hover:text-emerald-400 transition-colors duration-300 rounded-md px-3 py-2">Gemini</a>
+                <a href="#chatgpt" class="text-gray-300 hover:text-emerald-400 transition-colors duration-300 rounded-md px-3 py-2">ChatGPT</a>
+                <a href="#video-ai" class="text-gray-300 hover:text-emerald-400 transition-colors duration-300 rounded-md px-3 py-2">Video AI</a>
+                <a href="#gamma" class="text-gray-300 hover:text-emerald-400 transition-colors duration-300 rounded-md px-3 py-2">Gamma</a>
+                <a href="#other-websites" class="text-gray-300 hover:text-emerald-400 transition-colors duration-300 rounded-md px-3 py-2">Other Projects</a>
+                <a href="#contact" class="text-gray-300 hover:text-emerald-400 transition-colors duration-300 rounded-md px-3 py-2">Contact</a>
+            </div>
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-button" class="md:hidden text-gray-300 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-[#1a1a1a] py-2">
+            <a href="#home" class="block px-4 py-2 text-gray-300 hover:bg-gray-800 hover:text-emerald-400 transition-colors duration-300">Home</a>
+            <a href="#gemini" class="block px-4 py-2 text-gray-300 hover:bg-gray-800 hover:text-emerald-400 transition-colors duration-300">Gemini</a>
+            <a href="#chatgpt" class="block px-4 py-2 text-gray-300 hover:bg-gray-800 hover:text-emerald-400 transition-colors duration-300">ChatGPT</a>
+            <a href="#video-ai" class="block px-4 py-2 text-gray-300 hover:bg-gray-800 hover:text-emerald-400 transition-colors duration-300">Video AI</a>
+            <a href="#gamma" class="block px-4 py-2 text-gray-300 hover:bg-gray-800 hover:text-emerald-400 transition-colors duration-300">Gamma</a>
+            <a href="#other-websites" class="block px-4 py-2 text-gray-300 hover:bg-gray-800 hover:text-emerald-400 transition-colors duration-300">Other Projects</a>
+            <a href="#contact" class="block px-4 py-2 text-gray-300 hover:bg-gray-800 hover:text-emerald-400 transition-colors duration-300">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="home" class="hero-background relative min-h-screen flex items-center justify-center text-center px-6 py-20 overflow-hidden">
+        <div class="relative z-10 max-w-4xl mx-auto p-8 rounded-xl bg-[#1a1a1a] bg-opacity-70 backdrop-blur-md shadow-2xl animated-gradient-border scroll-reveal">
+            <h1 class="text-5xl md:text-6xl font-extrabold mb-4 gradient-text leading-tight">
+                Empowering Junior Developers with <br> Cutting-Edge AI Tools
+            </h1>
+            <p class="text-lg md:text-xl text-gray-300 mb-8">
+                Dive deep into the world of Artificial Intelligence with a junior web developer's perspective. Discover powerful AI tools that streamline your learning, boost productivity, and solve coding challenges.
+            </p>
+            <a href="#gemini" class="inline-block bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-8 rounded-full text-lg shadow-lg transform transition-transform duration-300 hover:scale-105">
+                Explore AI Tools
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="container mx-auto px-6 py-16">
+
+        <!-- Introduction to AI Tools Section -->
+        <section class="mb-20 text-center scroll-reveal bg-intro p-8 rounded-xl shadow-lg border border-gray-700">
+            <h2 class="text-4xl font-bold gradient-text mb-6">Unlocking Potential with AI</h2>
+            <p class="text-lg text-gray-300 max-w-3xl mx-auto">
+                In the rapidly evolving landscape of technology, Artificial Intelligence stands out as a transformative force. For junior web developers, QA engineers, and tech enthusiasts, leveraging the right AI tools can revolutionize productivity, accelerate learning, and unlock new creative avenues. This blog explores a curated list of powerful AI tools, breaking down their specific strengths and how you can integrate them into your daily tasks and complex projects.
+            </p>
+            <div class="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="bg-[#282828] p-6 rounded-xl shadow-lg border border-gray-700 scroll-reveal">
+                    <h3 class="text-xl font-semibold text-emerald-400 mb-3">Code Generation & Debugging</h3>
+                    <p class="text-gray-400">Automate boilerplate, fix bugs, and understand code with intelligent AI assistance.</p>
+                </div>
+                <div class="bg-[#282828] p-6 rounded-xl shadow-lg border border-gray-700 scroll-reveal">
+                    <h3 class="text-xl font-semibold text-emerald-400 mb-3">Content & Creative Generation</h3>
+                    <p class="text-gray-400">From text to images and videos, AI empowers rapid content creation.</p>
+                </div>
+                <div class="bg-[#282828] p-6 rounded-xl shadow-lg border border-gray-700 scroll-reveal">
+                    <h3 class="text-xl font-semibold text-emerald-400 mb-3">Workflow Automation</h3>
+                    <p class="text-gray-400">Streamline routine tasks, generate reports, and enhance daily productivity.</p>
+                </div>
+                <div class="bg-[#282828] p-6 rounded-xl shadow-lg border border-gray-700 scroll-reveal">
+                    <h3 class="text-xl font-semibold text-emerald-400 mb-3">Learning & Concept Explanation</h3>
+                    <p class="text-gray-400">Simplify complex topics, get quick answers, and accelerate your learning journey.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gemini Section -->
+        <section id="gemini" class="mb-20 py-16 px-6 rounded-xl bg-gemini scroll-reveal">
+            <h2 class="text-4xl font-bold gradient-text mb-8 text-center">Gemini: The Versatile AI for Development & Creativity</h2>
+
+            <!-- Gemini for Coding & Project Development -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center bg-[#282828] p-8 rounded-xl shadow-lg border border-gray-700 mb-12">
+                <div class="lg:order-2">
+                    <h3 class="text-3xl font-semibold text-white mb-4">Gemini for Code Generation, Refactoring & Project Architecture</h3>
+                    <p class="text-lg text-gray-300 mb-6">
+                        As a junior web developer, learning and implementing code efficiently is crucial. Gemini significantly enhances my daily coding workflow. It excels at generating boilerplate code, suggesting optimal architectural patterns, and even debugging complex issues across multiple files. Its massive context window allows it to analyze entire codebases, making it an invaluable assistant for understanding large projects and ensuring high-quality, production-ready code.
+                    </p>
+                    <p class="text-md text-gray-400 mb-6">
+                        Beyond simple code snippets, Gemini can help construct complete web applications with proper error handling and state management. Its ability to understand context from your local codebase means its suggestions are highly relevant and integrated. This dramatically speeds up development, reduces manual errors, and allows me to focus on higher-level problem-solving and learning best practices.
+                    </p>
+                    <div class="code-block p-4 rounded-lg mt-6 text-sm text-gray-200">
+                        <div class="code-prompt">
+                            <span class="code-prompt-label">Prompt:</span>
+                            <p>
+                                "Create a simple HTML button that changes its text from 'Click Me!' to 'Clicked!' when pressed. No frameworks, just plain HTML and JavaScript."
+                            </p>
+                        </div>
+                        <div class="code-output">
+                            <span class="code-output-label">Generated Code (Example):</span>
+                            <pre><code>
+&lt;button id="myButton"&gt;Click Me!&lt;/button&gt;
+
+&lt;script&gt;
+  document.getElementById('myButton').addEventListener('click', function() {
+    this.textContent = 'Clicked!';
+  });
+&lt;/script&gt;
+                            </code></pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:order-1">
+                    <img src="https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750"
+                         alt="Gemini Code Assist Interface"
+                         class="rounded-xl shadow-xl w-full h-auto object-cover border border-gray-600 transform transition-transform duration-500 hover:scale-105"
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x400/2a2a2a/e0e0e0?text=Coding+Interface';">
+                    <p class="text-sm text-gray-500 mt-2 text-center">Gemini assisting with code generation in an IDE environment.</p>
+                </div>
+            </div>
+
+            <!-- Gemini for Text Generation & Image Creation -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center bg-[#282828] p-8 rounded-xl shadow-lg border border-gray-700">
+                <div>
+                    <h3 class="text-3xl font-semibold text-white mb-4">Gemini for Text Generation, Project Planning & Image Creation</h3>
+                    <p class="text-lg text-gray-300 mb-6">
+                        Beyond coding, Gemini is a powerful tool for generating comprehensive text, whether it's for documentation, blog posts, or detailed project plans. Its ability to reason through thoughts before responding leads to highly accurate and contextually relevant content. For aspiring project managers and technical writers, this feature alone is a game-changer.
+                    </p>
+                    <p class="text-md text-gray-400 mb-6">
+                        Furthermore, Gemini's multimodal capabilities extend to image generation. While it requires specific and detailed prompts to achieve desired outcomes, it can translate complex ideas into visual representations. This is incredibly useful for conceptualizing UI designs, creating visual assets for presentations, or even brainstorming marketing materials. Mastering the art of prompt engineering with Gemini opens up a new realm of creative possibilities.
+                    </p>
+                    <div class="relative w-full h-64 rounded-xl overflow-hidden shadow-lg border border-gray-600 group">
+                        <img src="https://cdn.pixabay.com/photo/2025/06/12/15/01/chicken-9656370_640.jpg"
+                             alt="AI Generated Art"
+                             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                             onerror="this.onerror=null;this.src='https://placehold.co/600x300/2a2a2a/e0e0e0?text=AI+Generated+Art';">
+                        <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <p class="text-white text-center p-4">My example: A detailed prompt like "Abstract digital art depicting flowing data streams in neon colors against a dark background" can lead to stunning visual outcomes.</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-2 text-center">An example of AI-generated art, showcasing creative potential.</p>
+                </div>
+                <div>
+                    <img src="https://th.bing.com/th/id/OIP.9cjBpwOKMB5yJdEvjEFMLwHaEK?w=307&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+                         alt="Gemini Text Generation Interface"
+                         class="rounded-xl shadow-xl w-full h-auto object-cover border border-gray-600 transform transition-transform duration-500 hover:scale-105"
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x400/2a2a2a/e0e0e0?text=Text+Generation+Interface';">
+                    <p class="text-sm text-gray-500 mt-2 text-center">Gemini's interface for text and content creation.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ChatGPT Section -->
+        <section id="chatgpt" class="mb-20 py-16 px-6 rounded-xl bg-chatgpt scroll-reveal">
+            <h2 class="text-4xl font-bold gradient-text mb-8 text-center">ChatGPT: Your Go-To for Scripts & Daily Automation</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center bg-[#282828] p-8 rounded-xl shadow-lg border border-gray-700">
+                <div class="lg:order-2">
+                    <h3 class="text-3xl font-semibold text-white mb-4">Streamlining Daily Tasks & Scripting with ChatGPT</h3>
+                    <p class="text-lg text-gray-300 mb-6">
+                        For everyday scripting needs, quick problem-solving, and general task automation, ChatGPT is an unparalleled companion for junior developers. Its conversational interface makes it incredibly intuitive to use, whether you need a simple shell script, a Python utility for a small task, or even assistance with complex Excel formulas for data analysis. It's adept at understanding natural language queries and providing relevant, actionable responses swiftly.
+                    </p>
+                    <p class="text-md text-gray-400 mb-6">
+                        I often use ChatGPT to generate small scripts for automating data manipulation, create quick testing scripts, or even draft email responses for project updates. It acts as a highly efficient virtual assistant, helping to clear minor roadblocks and free up time for learning new concepts and tackling more complex development work. Its strength lies in its ability to quickly provide useful solutions for a wide array of daily operational and learning challenges.
+                    </p>
+                    <div class="code-block p-4 rounded-lg mt-6 text-sm text-gray-200">
+                        <div class="code-prompt">
+                            <span class="code-prompt-label">Prompt:</span>
+                            <p>
+                                "Write a Python script that takes a user's name and age as input, then prints a greeting message. For example, 'Hello, [Name]! You are [Age] years old.'"
+                            </p>
+                        </div>
+                        <div class="code-output">
+                            <span class="code-output-label">Generated Code (Example):</span>
+                            <pre><code>
+&lt;button id="myButton"&gt;Click Me!&lt;/button&gt;
+
+&lt;script&gt;
+  document.getElementById('myButton').addEventListener('click', function() {
+    this.textContent = 'Clicked!';
+  });
+&lt;/script&gt;
+                            </code></pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:order-1">
+                    <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1260&h=750"
+                         alt="ChatGPT for daily tasks and learning"
+                         class="rounded-xl shadow-xl w-full h-auto object-cover border border-gray-600 transform transition-transform duration-500 hover:scale-105"
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x400/3a3a3a/e0e0e0?text=Typing+on+Keyboard';">
+                    <p class="text-sm text-gray-500 mt-2 text-center">ChatGPT excelling at quick script generation for daily tasks and learning.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Video Generation AI Section -->
+        <section id="video-ai" class="mb-20 py-16 px-6 rounded-xl bg-videoai scroll-reveal">
+            <h2 class="text-4xl font-bold gradient-text mb-8 text-center">AI for Video Generation: Veo vs. Invideo AI</h2>
+
+            <!-- Veo for Cinematic Video Generation -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center bg-[#282828] p-8 rounded-xl shadow-lg border border-gray-700 mb-12">
+                <div>
+                    <h3 class="text-3xl font-semibold text-white mb-4">Veo: Cinematic Video Creation from Text/Image</h3>
+                    <p class="text-lg text-gray-300 mb-6">
+                        When it comes to generating high-quality, cinematic video clips directly from text or image prompts, Google's Veo stands out. Veo 3, the latest iteration, pushes boundaries by generating videos up to 4K resolution with incredibly crisp visuals, smooth gradients, and lifelike motion. What truly sets it apart is its synchronized audio integration, allowing for dynamic dialogue, background music, and ambient sound effects perfectly aligned with the visuals.
+                    </p>
+                    <p class="text-md text-gray-400 mb-6">
+                        Veo offers advanced cinematic controls, enabling smooth camera pans, zooms, and time-lapse sequences, making it ideal for creating explainer videos, short films, or promotional content that requires a polished, professional feel. For developers looking to quickly prototype visual concepts or content creators needing high-fidelity video without extensive production, Veo is a powerful tool.
+                    </p>
+                    <div class="relative w-full h-72 rounded-xl overflow-hidden shadow-lg border border-gray-600 group">
+                        <!-- Using the provided Pixabay video link, with sample fallback for reliability -->
+                        <video controls class="w-full h-full object-cover" poster="https://th.bing.com/th?id=OIF.3OUXMJyZgwpr80zmN4%2b5xQ&w=272&h=180&c=7&r=0&o=7&pid=1.7&rm=3">
+                            <source src="https://cdn.pixabay.com/video/2023/08/08/175190-852857837_tiny.mp4" type="video/mp4" onerror="this.src='https://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4';">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <p class="text-white text-center p-4">My Example: Imagine prompting "A drone shot flying over a futuristic city at night, neon lights reflecting on wet streets, with synth-wave music." Veo can bring this vision to life.</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-2 text-center">A glimpse into Veo's cinematic video generation capabilities.</p>
+                </div>
+                <div>
+                    <img src="https://th.bing.com/th?id=OIF.3OUXMJyZgwpr80zmN4%2b5xQ&w=272&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+                         alt="Veo AI Video Creation Interface"
+                         class="rounded-xl shadow-xl w-full h-auto object-cover border border-gray-600 transform transition-transform duration-500 hover:scale-105"
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x400/4a4a4a/e0e0e0?text=Veo+Interface';">
+                    <p class="text-sm text-gray-500 mt-2 text-center">Veo's interface for professional video content creation.</p>
+                </div>
+            </div>
+
+            <!-- Invideo AI for Comprehensive Video Content -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center bg-[#282828] p-8 rounded-xl shadow-lg border border-gray-700">
+                <div class="lg:order-2">
+                    <h3 class="text-3xl font-semibold text-white mb-4">Invideo AI: Rich Video Content with Text, Sound & Stock Assets</h3>
+                    <p class="text-lg text-gray-300 mb-6">
+                        For creating comprehensive video content that integrates text overlays, voiceovers, background sound, and a rich library of stock clips, Invideo AI is a powerful choice. Unlike tools focused purely on visual generation, Invideo AI excels at building scene-based videos using a combination of stock footage, user-uploaded media, and AI-generated visuals, making it highly versatile for various content types.
+                    </p>
+                    <p class="text-md text-gray-400 mb-6">
+                        It offers AI-powered scriptwriting, automatic voiceover narration, and the ability to generate animated videos from text prompts. The "Magic Editor" feature allows direct video modifications using text commands, streamlining the editing process. Invideo AI is perfect for marketing videos, listicles, social media clips, educational content, and repurposing written materials into engaging video formats. Its massive template library and intuitive drag-and-drop interface further simplify the creation process.
+                    </p>
+                    <div class="relative w-full h-72 rounded-xl overflow-hidden shadow-lg border border-gray-600 group">
+                        <!-- Using sample-videos.com for reliable video playback (YouTube Shorts generally blocked) -->
+                        <video controls class="w-full h-full object-cover" poster="https://th.bing.com/th/id/OIP.pKe0_UHtIVZERTOB1ueTMwHaD8?w=315&h=180&c=7&r=0&o=7&pid=1.7&rm=3">
+                            <source src="https://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <p class="text-white text-center p-4">My Example: A prompt like "Create a short explainer video about 'The Benefits of Cloud Computing' with a clear voiceover, relevant stock footage, and on-screen text." Invideo AI is perfect for this.</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-2 text-center">A demonstration of Invideo AI's versatile content creation.</p>
+                </div>
+                <div>
+                    <img src="https://th.bing.com/th/id/OIP.pKe0_UHtIVZERTOB1ueTMwHaD8?w=315&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+                         alt="Invideo AI Interface"
+                         class="rounded-xl shadow-xl w-full h-auto object-cover border border-gray-600 transform transition-transform duration-500 hover:scale-105"
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x400/4a4a4a/e0e0e0?text=Invideo+AI+Interface';">
+                    <p class="text-sm text-gray-500 mt-2 text-center">Invideo AI's user-friendly interface for content-rich video.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gamma Section -->
+        <section id="gamma" class="mb-20 py-16 px-6 rounded-xl bg-gamma scroll-reveal">
+            <h2 class="text-4xl font-bold gradient-text mb-8 text-center">Gamma: The Best for AI-Powered Presentations</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center bg-[#282828] p-8 rounded-xl shadow-lg border border-gray-700">
+                <div>
+                    <h3 class="text-3xl font-semibold text-white mb-4">Crafting Free & Professional Presentations with Gamma</h3>
+                    <p class="text-lg text-gray-300 mb-6">
+                        For quickly generating professional and visually appealing presentations without extensive design skills, Gamma.app is my top recommendation. It transforms natural language prompts into polished, interactive content, whether you need a full slide deck for a class project, a document, or a webpage. Unlike traditional slide-based tools, Gamma uses a modern, scrollable "card" format that looks great on any device.
+                    </p>
+                    <p class="text-md text-gray-400 mb-6">
+                        Gamma's AI engine handles both content drafting and layout generation, automatically formatting text and suggesting media. This makes it incredibly fast to produce pitch decks, reports, or educational materials, dramatically reducing the time spent on formatting and design. Its ease of use, combined with the ability to embed interactive elements, makes it a powerful tool for any junior developer needing to communicate ideas effectively and efficiently, especially when presenting technical concepts.
+                    </p>
+                    <img src="https://images.pexels.com/photos/1181671/pexels-photo-1181671.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750"
+                         alt="Gamma Presentation Example"
+                         class="rounded-xl shadow-xl w-full h-auto object-cover border border-gray-600 mt-6 transform transition-transform duration-500 hover:scale-105"
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x300/5a5a5a/e0e0e0?text=Gamma+Presentation';">
+                    <p class="text-sm text-gray-500 mt-2 text-center">My example: A beautifully designed presentation on "Introduction to Web Development Frameworks" created effortlessly with Gamma.</p>
+                </div>
+                <div>
+                    <img src="https://images.pexels.com/photos/669612/pexels-photo-669612.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750"
+                         alt="Gamma AI Interface"
+                         class="rounded-xl shadow-xl w-full h-auto object-cover border border-gray-600 transform transition-transform duration-500 hover:scale-105"
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x400/5a5a5a/e0e0e0?text=Gamma+Interface';">
+                    <p class="text-sm text-gray-500 mt-2 text-center">Gamma's intuitive interface for rapid presentation creation.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Other Websites Section -->
+        <section id="other-websites" class="mb-20 py-16 px-6 rounded-xl bg-other-websites scroll-reveal">
+            <h2 class="text-4xl font-bold gradient-text mb-8 text-center">Exploring the Wordora Digital Network</h2>
+            <p class="text-lg text-gray-300 max-w-3xl mx-auto mb-12 text-center">
+                Welcome to a showcase of innovation and utility! At Wordora, we craft diverse digital experiences, from empowering productivity tools to immersive gaming guides and creative learning platforms. Join us as we delve into each unique website that forms our growing network. I've also recently launched a blog on an Indian server called <span class="font-semibold text-emerald-400">mclfleet</span>, created by Anshu Bisht.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Wordora: The Next-Generation Reading Experience -->
+                <div class="project-card p-6 rounded-xl shadow-lg transform transition-transform duration-300 hover:scale-105">
+                    <h3 class="text-2xl font-semibold text-white mb-4">Wordora: Next-Gen Reading</h3>
+                    <img src="https://cdn.pixabay.com/photo/2015/05/31/10/55/man-791049_1280.jpg"
+                         alt="Wordora Reading Platform"
+                         class="rounded-lg shadow-md w-full h-48 object-cover mb-4 border border-gray-600"
+                         onerror="this.onerror=null;this.src='https://placehold.co/400x200/6a6a6a/e0e0e0?text=Wordora+Reading';">
+                    <p class="text-md text-gray-300 mb-4">
+                        A revolutionary reading platform with unique visual highlighting for enhanced focus and reduced fatigue.
+                    </p>
+                    <a href="https://wordora.vercel.app" target="_blank" class="inline-block bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-4 rounded-full text-sm shadow-md transform transition-transform duration-300 hover:scale-105">
+                        Discover Wordora
+                    </a>
+                </div>
+
+                <!-- Bitaegiris: Your Secure & Simple Password Companion -->
+                <div class="project-card p-6 rounded-xl shadow-lg transform transition-transform duration-300 hover:scale-105">
+                    <h3 class="text-2xl font-semibold text-white mb-4">Bitaegiris: Password Manager</h3>
+                    <img src="https://images.pexels.com/photos/3201763/pexels-photo-3201763.jpeg?auto=compress&cs=tinysrgb&w=400&h=200"
+                         alt="Bitaegiris Password Manager"
+                         class="rounded-lg shadow-md w-full h-48 object-cover mb-4 border border-gray-600"
+                         onerror="this.onerror=null;this.src='https://placehold.co/400x200/6a6a6a/e0e0e0?text=Bitaegiris+Security';">
+                    <p class="text-md text-gray-300 mb-4">
+                        A modern and user-friendly password manager focused on simplicity and security.
+                    </p>
+                    <a href="https://bitaegiris.vercel.app" target="_blank" class="inline-block bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-4 rounded-full text-sm shadow-md transform transition-transform duration-300 hover:scale-105">
+                        Secure Your Passwords
+                    </a>
+                </div>
+
+                <!-- RealGoalGo: Achieve Your Aspirations with Strategic Goal Setting -->
+                <div class="project-card p-6 rounded-xl shadow-lg transform transition-transform duration-300 hover:scale-105">
+                    <h3 class="text-2xl font-semibold text-white mb-4">RealGoalGo: Goal Setting</h3>
+                    <img src="https://cdn.pixabay.com/photo/2021/10/31/07/20/success-6756404_640.png"
+                         alt="RealGoalGo Goal Setting"
+                         class="rounded-lg shadow-md w-full h-48 object-cover mb-4 border border-gray-600"
+                         onerror="this.onerror=null;this.src='https://placehold.co/400x200/6a6a6a/e0e0e0?text=RealGoalGo+Goals';">
+                    <p class="text-md text-gray-300 mb-4">
+                        A powerful platform to help users define and consistently pursue objectives across various categories.
+                    </p>
+                    <a href="https://realgoalgo.vercel.app" target="_blank" class="inline-block bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-4 rounded-full text-sm shadow-md transform transition-transform duration-300 hover:scale-105">
+                        Set Your Goals
+                    </a>
+                </div>
+
+                <!-- Wordora Adobe Illustrator -->
+                <div class="project-card p-6 rounded-xl shadow-lg transform transition-transform duration-300 hover:scale-105">
+                    <h3 class="text-2xl font-semibold text-white mb-4">Adobe Illustrator Guides</h3>
+                    <img src="https://images.pexels.com/photos/1779487/pexels-photo-1779487.jpeg?auto=compress&cs=tinysrgb&w=400&h=200"
+                         alt="Adobe Illustrator Interface"
+                         class="rounded-lg shadow-md w-full h-48 object-cover mb-4 border border-gray-600"
+                         onerror="this.onerror=null;this.src='https://placehold.co/400x200/6a6a6a/e0e0e0?text=Illustrator+Guide';">
+                    <p class="text-md text-gray-300 mb-4">
+                        Your go-to resource for mastering Adobe Illustrator, including download guidance and tutorials.
+                    </p>
+                    <a href="https://wordoraadobeillustrator.vercel.app" target="_blank" class="inline-block bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-4 rounded-full text-sm shadow-md transform transition-transform duration-300 hover:scale-105">
+                        Learn Illustrator
+                    </a>
+                </div>
+
+                <!-- Wordora Adobe Photoshop Free -->
+                <div class="project-card p-6 rounded-xl shadow-lg transform transition-transform duration-300 hover:scale-105">
+                    <h3 class="text-2xl font-semibold text-white mb-4">Adobe Photoshop Guides</h3>
+                    <img src="https://cdn.pixabay.com/photo/2015/05/15/02/07/computer-767781_1280.jpg"
+                         alt="Adobe Photoshop Interface"
+                         class="rounded-lg shadow-md w-full h-48 object-cover mb-4 border border-gray-600"
+                         onerror="this.onerror=null;this.src='https://placehold.co/400x200/6a6a6a/e0e0e0?text=Photoshop+Guide';">
+                    <p class="text-md text-gray-300 mb-4">
+                        Guides to unleash image editing potential with Photoshop and explore free alternatives.
+                    </p>
+                    <a href="https://wordoraadobephotoshopfree.vercel.app" target="_blank" class="inline-block bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-4 rounded-full text-sm shadow-md transform transition-transform duration-300 hover:scale-105">
+                        Edit Your Photos
+                    </a>
+                </div>
+
+                <!-- Wordora Adobe -->
+                <div class="project-card p-6 rounded-xl shadow-lg transform transition-transform duration-300 hover:scale-105">
+                    <h3 class="text-2xl font-semibold text-white mb-4">Adobe Creative Cloud Overview</h3>
+                    <img src="https://cdn.pixabay.com/photo/2020/02/05/09/02/cloud-4820504_640.jpg"
+                         alt="Adobe Creative Cloud"
+                         class="rounded-lg shadow-md w-full h-48 object-cover mb-4 border border-gray-600"
+                         onerror="this.onerror=null;this.src='https://placehold.co/400x200/6a6a6a/e0e0e0?text=Adobe+Cloud+Guide';">
+                    <p class="text-md text-gray-300 mb-4">
+                        A general resource for navigating the Adobe Creative Cloud ecosystem, including installation guidance.
+                    </p>
+                    <a href="https://wordoraadobe.vercel.app" target="_blank" class="inline-block bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-4 rounded-full text-sm shadow-md transform transition-transform duration-300 hover:scale-105">
+                        Explore Adobe Tools
+                    </a>
+                </div>
+
+                <!-- Adobe Premier -->
+                <div class="project-card p-6 rounded-xl shadow-lg transform transition-transform duration-300 hover:scale-105">
+                    <h3 class="text-2xl font-semibold text-white mb-4">Adobe Premiere Pro Guides</h3>
+                    <img src="https://images.pexels.com/photos/1779487/pexels-photo-1779487.jpeg?auto=compress&cs=tinysrgb&w=400&h=200"
+                         alt="Adobe Premiere Pro Interface"
+                         class="rounded-lg shadow-md w-full h-48 object-cover mb-4 border border-gray-600"
+                         onerror="this.onerror=null;this.src='https://placehold.co/400x200/6a6a6a/e0e0e0?text=Premiere+Pro+Guide';">
+                    <p class="text-md text-gray-300 mb-4">
+                        Guides to professional video editing with Adobe Premiere Pro, from basics to advanced techniques.
+                    </p>
+                    <a href="https://wordoraadobepremier.vercel.app" target="_blank" class="inline-block bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-4 rounded-full text-sm shadow-md transform transition-transform duration-300 hover:scale-105">
+                        Start Video Editing
+                    </a>
+                </div>
+
+                <!-- Wordora Valorant -->
+                <div class="project-card p-6 rounded-xl shadow-lg transform transition-transform duration-300 hover:scale-105">
+                    <h3 class="text-2xl font-semibold text-white mb-4">Valorant Tactical Edge</h3>
+                    <img src="https://cdn.pixabay.com/photo/2021/08/27/02/10/paintball-6577561_640.jpg"
+                         alt="Valorant Gameplay"
+                         class="rounded-lg shadow-md w-full h-48 object-cover mb-4 border border-gray-600"
+                         onerror="this.onerror=null;this.src='https://placehold.co/400x200/6a6a6a/e0e0e0?text=Valorant+Guide';">
+                    <p class="text-md text-gray-300 mb-4">
+                        Comprehensive guides to mastering Valorant, including agent abilities, map strategies, and gunplay tips.
+                    </p>
+                    <a href="https://wordoravalorant.vercel.app" target="_blank" class="inline-block bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-4 rounded-full text-sm shadow-md transform transition-transform duration-300 hover:scale-105">
+                        Master Valorant
+                    </a>
+                </div>
+
+                <!-- Wordora Minecraft -->
+                <div class="project-card p-6 rounded-xl shadow-lg transform transition-transform duration-300 hover:scale-105">
+                    <h3 class="text-2xl font-semibold text-white mb-4">Minecraft World Guides</h3>
+                    <img src="https://th.bing.com/th/id/OIP.0L9oSnoLyNKnqNE4jLTUBAHaEK?w=317&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
+                         alt="Minecraft Blocks"
+                         class="rounded-lg shadow-md w-full h-48 object-cover mb-4 border border-gray-600"
+                         onerror="this.onerror=null;this.src='https://placehold.co/400x200/6a6a6a/e0e0e0?text=Minecraft+Guide';">
+                    <p class="text-md text-gray-300 mb-4">
+                        Unleash creativity and adventure in Minecraft with guides on crafting, survival, and building techniques.
+                    </p>
+                    <a href="https://wordoramincraf.vercel.app" target="_blank" class="inline-block bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-4 rounded-full text-sm shadow-md transform transition-transform duration-300 hover:scale-105">
+                        Start Building
+                    </a>
+                </div>
+
+                <!-- Wordora Forza Horizon -->
+                <div class="project-card p-6 rounded-xl shadow-lg transform transition-transform duration-300 hover:scale-105">
+                    <h3 class="text-2xl font-semibold text-white mb-4">Forza Horizon Racing</h3>
+                    <img src="https://images.pexels.com/photos/1592384/pexels-photo-1592384.jpeg?auto=compress&cs=tinysrgb&w=400&h=200"
+                         alt="Forza Horizon Racing"
+                         class="rounded-lg shadow-md w-full h-48 object-cover mb-4 border border-gray-600"
+                         onerror="this.onerror=null;this.src='https://placehold.co/400x200/6a6a6a/e0e0e0?text=Forza+Horizon+Guide';">
+                    <p class="text-md text-gray-300 mb-4">
+                        Experience the thrill of open-world racing in Forza Horizon with guides on car customization and events.
+                    </p>
+                    <a href="https://realgoalgo.vercel.app" target="_blank" class="inline-block bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-4 rounded-full text-sm shadow-md transform transition-transform duration-300 hover:scale-105">
+                        Hit the Road
+                    </a>
+                </div>
+
+                <!-- Wordora GTA 5 -->
+                <div class="project-card p-6 rounded-xl shadow-lg transform transition-transform duration-300 hover:scale-105">
+                    <h3 class="text-2xl font-semibold text-white mb-4">GTA 5 Los Santos Guides</h3>
+                    <img src="https://th.bing.com/th/id/OIP.fokmMyKHLxC0Mxr6ujrAAQHaEK?w=324&h=182&c=7&r=0&o=7&pid=1.7&rm=3"
+                         alt="GTA V Cityscape"
+                         class="rounded-lg shadow-md w-full h-48 object-cover mb-4 border border-gray-600"
+                         onerror="this.onerror=null;this.src='https://placehold.co/400x200/6a6a6a/e0e0e0?text=GTA+V+Guide';">
+                    <p class="text-md text-gray-300 mb-4">
+                        Navigate the sprawling underworld of Los Santos with guides on missions, activities, and GTA Online.
+                    </p>
+                    <a href="https://wordoragta5.vercel.app" target="_blank" class="inline-block bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-4 rounded-full text-sm shadow-md transform transition-transform duration-300 hover:scale-105">
+                        Explore Los Santos
+                    </a>
+                </div>
+
+                <!-- New: MCFleet.org -->
+                <div class="project-card p-6 rounded-xl shadow-lg transform transition-transform duration-300 hover:scale-105">
+                    <h3 class="text-2xl font-semibold text-white mb-4">MCFleet.org: Gamerfleet Hub</h3>
+                    <img src="https://th.bing.com/th/id/OIP.qzJLqvwC7lVL_Bdq12HcxgHaHa?w=218&h=218&c=7&r=0&o=5&pid=1.20"
+                         alt="Gamerfleet Knowledge Hub"
+                         class="rounded-lg shadow-md w-full h-48 object-cover mb-4 border border-gray-600"
+                         onerror="this.onerror=null;this.src='https://placehold.co/400x200/6a6a6a/e0e0e0?text=Gamerfleet+Hub';">
+                    <p class="text-md text-gray-300 mb-4">
+                        The ultimate resource for all knowledge related to the popular Indian YouTuber Gamerfleet and his server.
+                    </p>
+                    <a href="https://mclfleetorg.vercel.app" target="_blank" class="inline-block bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-4 rounded-full text-sm shadow-md transform transition-transform duration-300 hover:scale-105">
+                        Visit MCFleet.org
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conclusion / Contact Section -->
+        <section id="contact" class="text-center bg-contact p-8 rounded-xl shadow-lg border border-gray-700 scroll-reveal">
+            <h2 class="text-4xl font-bold gradient-text mb-6">Connect With Me!</h2>
+            <p class="text-lg text-gray-300 max-w-2xl mx-auto mb-8">
+                For inquiries, collaborations, or just to say hello, feel free to reach out to me directly via email.
+            </p>
+            <a href="mailto:abhigyaworkspace@gmail.com" class="inline-block bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-8 rounded-full text-lg shadow-lg transform transition-transform duration-300 hover:scale-105">
+                Email Me: abhigyaworkspace@gmail.com
+            </a>
+            <p class="text-sm text-gray-400 mt-4">
+                I look forward to hearing from you!
+            </p>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#1a1a1a] text-gray-400 py-8 px-6 text-center border-t border-gray-700">
+        <div class="container mx-auto">
+            <p>&copy; 2025 Wordora. All rights reserved.</p>
+            <p class="mt-2 text-sm">Built with passion by a Junior Web Developer.</p>
+            <p class="mt-1 text-sm">Part of the <span class="font-semibold text-emerald-400">Wordora Digital Network</span></p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+                // Close mobile menu if open
+                const mobileMenu = document.getElementById('mobile-menu');
+                if (!mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Scroll reveal animation
+        const scrollRevealElements = document.querySelectorAll('.scroll-reveal');
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); // Stop observing once visible
+                }
+            });
+        }, observerOptions);
+
+        scrollRevealElements.forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
